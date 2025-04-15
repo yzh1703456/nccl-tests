@@ -586,6 +586,8 @@ testResult_t TimeTest(struct threadArgs* args, ncclDataType_t type, const char* 
   // Sync to avoid first-call timeout
   Barrier(args);
 
+  printf("-----------NCCL TESTS: common.cu: 589-----------\n");
+
   // Warm-up for large size
   setupArgs(args->maxbytes, type, args);
   for (int iter = 0; iter < warmup_iters; iter++) {
@@ -593,12 +595,16 @@ testResult_t TimeTest(struct threadArgs* args, ncclDataType_t type, const char* 
   }
   TESTCHECK(completeColl(args));
 
+  printf("-----------NCCL TESTS: common.cu: 598-----------\n");
+
   // Warm-up for small size
   setupArgs(args->minbytes, type, args);
   for (int iter = 0; iter < warmup_iters; iter++) {
     TESTCHECK(startColl(args, type, op, root, 0, iter));
   }
   TESTCHECK(completeColl(args));
+
+  printf("-----------NCCL TESTS: common.cu: 607-----------\n");
 
   // Benchmark
   long repeat = run_cycles;
@@ -613,6 +619,8 @@ testResult_t TimeTest(struct threadArgs* args, ncclDataType_t type, const char* 
       PRINT("\n");
     }
   } while (--repeat);
+
+  printf("-----------NCCL TESTS: common.cu: 623-----------\n");
 
   return testSuccess;
 }
