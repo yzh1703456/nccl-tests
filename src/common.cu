@@ -416,8 +416,11 @@ testResult_t BenchTime(struct threadArgs* args, ncclDataType_t type, ncclRedOp_t
   }
 
   // Sync
+  printf("-----------NCCL TESTS: common.cu: 419-----------\n");
   TESTCHECK(startColl(args, type, op, root, in_place, 0));
+  printf("-----------NCCL TESTS: common.cu: 421-----------\n");
   TESTCHECK(completeColl(args));
+  printf("-----------NCCL TESTS: common.cu: 423-----------\n");
 
   Barrier(args);
 
@@ -586,16 +589,12 @@ testResult_t TimeTest(struct threadArgs* args, ncclDataType_t type, const char* 
   // Sync to avoid first-call timeout
   Barrier(args);
 
-  printf("-----------NCCL TESTS: common.cu: 589-----------\n");
-
   // Warm-up for large size
   setupArgs(args->maxbytes, type, args);
   for (int iter = 0; iter < warmup_iters; iter++) {
     TESTCHECK(startColl(args, type, op, root, 0, iter));
   }
   TESTCHECK(completeColl(args));
-
-  printf("-----------NCCL TESTS: common.cu: 598-----------\n");
 
   // Warm-up for small size
   setupArgs(args->minbytes, type, args);
@@ -604,15 +603,11 @@ testResult_t TimeTest(struct threadArgs* args, ncclDataType_t type, const char* 
   }
   TESTCHECK(completeColl(args));
 
-  printf("-----------NCCL TESTS: common.cu: 607-----------\n");
-
   // Benchmark
   long repeat = run_cycles;
   do {
     for (size_t size = args->minbytes; size<=args->maxbytes; size = ((args->stepfactor > 1) ? size*args->stepfactor : size+args->stepbytes)) {
-      printf("-----------NCCL TESTS: common.cu: 613-----------\n");
       setupArgs(size, type, args);
-      printf("-----------NCCL TESTS: common.cu: 615-----------\n");
       char rootName[100];
       sprintf(rootName, "%6i", root);
       PRINT("%12li  %12li  %8s  %6s  %6s", max(args->sendBytes, args->expectedBytes), args->nbytes / wordSize(type), typeName, opName, rootName);
