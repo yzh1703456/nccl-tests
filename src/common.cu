@@ -290,6 +290,7 @@ testResult_t testStreamSynchronize(int ngpus, cudaStream_t* streams, ncclComm_t*
      if (done[i]) continue;
      printf("-----------NCCL TESTS: common.cu, testStreamSynchronize, in for: 291-----------\n");
      cudaErr = cudaStreamQuery(streams[i]);
+     printf("-----------NCCL TESTS: common.cu, testStreamSynchronize, cudaErr: %d, line293-----------\n", cudaErr);
      if (cudaErr == cudaSuccess) {
        printf("-----------NCCL TESTS: common.cu, testStreamSynchronize, in if: 294-----------\n");
        done[i] = 1;
