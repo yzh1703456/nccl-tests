@@ -42,9 +42,9 @@ void AllReduceGetBw(size_t count, int typesize, double sec, double* algBw, doubl
 
 testResult_t AllReduceRunColl(void* sendbuff, void* recvbuff, size_t count, ncclDataType_t type, ncclRedOp_t op, int root, ncclComm_t comm, cudaStream_t stream) {
   
-  printf("-----------NCCL TESTS: all_reduce.cu: 45-----------\n")
+  printf("-----------NCCL TESTS: all_reduce.cu: 45-----------\n");
   NCCLCHECK(ncclAllReduce(sendbuff, recvbuff, count, type, op, comm, stream));
-  printf("-----------NCCL TESTS: all_reduce.cu: 47-----------\n")
+  printf("-----------NCCL TESTS: all_reduce.cu: 47-----------\n");
   return testSuccess;
 }
 
