@@ -295,27 +295,41 @@ testResult_t testStreamSynchronize(int ngpus, cudaStream_t* streams, ncclComm_t*
        continue;
      }
 
+    printf("-----------NCCL TESTS: common.cu, testStreamSynchronize: %d-----------\n", __LINE__);
+
      if (cudaErr != cudaErrorNotReady) CUDACHECK(cudaErr);
 
+    printf("-----------NCCL TESTS: common.cu, testStreamSynchronize: %d-----------\n", __LINE__);
 #if NCCL_VERSION_CODE >= NCCL_VERSION(2,4,0)
+
+    printf("-----------NCCL TESTS: common.cu, testStreamSynchronize: %d-----------\n", __LINE__);
      if (test_ncclVersion >= NCCL_VERSION(2,4,0) && comms) {
        ncclResult_t ncclAsyncErr;
+       printf("-----------NCCL TESTS: common.cu, testStreamSynchronize: %d-----------\n", __LINE__);
        NCCLCHECK(ncclCommGetAsyncError(comms[i], &ncclAsyncErr));
+       printf("-----------NCCL TESTS: common.cu, testStreamSynchronize: %d-----------\n", __LINE__);
        if (ncclAsyncErr != ncclSuccess) {
+        printf("-----------NCCL TESTS: common.cu, testStreamSynchronize: %d-----------\n", __LINE__);
          // An asynchronous error happened. Stop the operation and destroy
          // the communicator
          for (int i=0; i<ngpus; i++)
            NCCLCHECK(ncclCommAbort(comms[i]));
          // Abort the perf test
          NCCLCHECK(ncclAsyncErr);
+         printf("-----------NCCL TESTS: common.cu, testStreamSynchronize: %d-----------\n", __LINE__);
        }
      }
+     printf("-----------NCCL TESTS: common.cu, testStreamSynchronize: %d-----------\n", __LINE__);
      double delta = tim.elapsed();
+     printf("-----------NCCL TESTS: common.cu, testStreamSynchronize: %d-----------\n", __LINE__);
      if (delta > timeout && timeout > 0) {
+      printf("-----------NCCL TESTS: common.cu, testStreamSynchronize: %d-----------\n", __LINE__);
        for (int i=0; i<ngpus; i++)
          NCCLCHECK(ncclCommAbort(comms[i]));
+        printf("-----------NCCL TESTS: common.cu, testStreamSynchronize: %d-----------\n", __LINE__);
        char hostname[1024];
        getHostName(hostname, 1024);
+       printf("-----------NCCL TESTS: common.cu, testStreamSynchronize: %d-----------\n", __LINE__);
        printf("%s: Test timeout (%ds) %s:%d\n",
            hostname,
            timeout,
@@ -325,10 +339,12 @@ testResult_t testStreamSynchronize(int ngpus, cudaStream_t* streams, ncclComm_t*
      }
 #endif
    }
-
+    printf("-----------NCCL TESTS: common.cu, testStreamSynchronize: %d-----------\n", __LINE__);
    // We might want to let other threads (including NCCL threads) use the CPU.
    if (idle) sched_yield();
   }
+
+  printf("-----------NCCL TESTS: common.cu, testStreamSynchronize:333-----------\n");
 
   free(done);
   return testSuccess;
