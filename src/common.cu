@@ -610,12 +610,16 @@ testResult_t TimeTest(struct threadArgs* args, ncclDataType_t type, const char* 
   long repeat = run_cycles;
   do {
     for (size_t size = args->minbytes; size<=args->maxbytes; size = ((args->stepfactor > 1) ? size*args->stepfactor : size+args->stepbytes)) {
+      printf("-----------NCCL TESTS: common.cu: 613-----------\n");
       setupArgs(size, type, args);
+      printf("-----------NCCL TESTS: common.cu: 615-----------\n");
       char rootName[100];
       sprintf(rootName, "%6i", root);
       PRINT("%12li  %12li  %8s  %6s  %6s", max(args->sendBytes, args->expectedBytes), args->nbytes / wordSize(type), typeName, opName, rootName);
+      printf("-----------NCCL TESTS: common.cu: 619-----------\n");
       TESTCHECK(BenchTime(args, type, op, root, 0));
       TESTCHECK(BenchTime(args, type, op, root, 1));
+      printf("-----------NCCL TESTS: common.cu: 622-----------\n");
       PRINT("\n");
     }
   } while (--repeat);
