@@ -435,14 +435,13 @@ testResult_t BenchTime(struct threadArgs* args, ncclDataType_t type, ncclRedOp_t
   }
 
   // Sync
-  printf("-----------NCCL TESTS: common.cu: 419-----------\n");
   TESTCHECK(startColl(args, type, op, root, in_place, 0));
-  printf("-----------NCCL TESTS: common.cu: 421-----------\n");
   TESTCHECK(completeColl(args));
-  printf("-----------NCCL TESTS: common.cu: 423-----------\n");
+  printf("-----------NCCL TESTS: common.cu, testStreamSynchronize: %d-----------\n", __LINE__);
 
   Barrier(args);
 
+  printf("-----------NCCL TESTS: common.cu, testStreamSynchronize: %d-----------\n", __LINE__);
 #if CUDART_VERSION >= 11030
   cudaGraph_t graphs[args->nGpus];
   cudaGraphExec_t graphExec[args->nGpus];
