@@ -281,18 +281,13 @@ testResult_t testStreamSynchronize(int ngpus, cudaStream_t* streams, ncclComm_t*
   memset(done, 0, sizeof(int)*ngpus);
   timer tim;
 
-  printf("-----------NCCL TESTS: common.cu, testStreamSynchronize: 284-----------\n");
-
   while (remaining) {
-  printf("-----------NCCL TESTS: common.cu, testStreamSynchronize, in while: 287-----------\n");
    int idle = 1;
    for (int i=0; i<ngpus; i++) {
      if (done[i]) continue;
-     printf("-----------NCCL TESTS: common.cu, testStreamSynchronize, in for: 291-----------\n");
      cudaErr = cudaStreamQuery(streams[i]);
-     printf("-----------NCCL TESTS: common.cu, testStreamSynchronize, cudaErr: %d, line293-----------\n", cudaErr);
+     printf("-----------NCCL TESTS: common.cu, testStreamSynchronize, cudaErr: %d, line293, GPU: %d-----------\n", cudaErr, i);
      if (cudaErr == cudaSuccess) {
-       printf("-----------NCCL TESTS: common.cu, testStreamSynchronize, in if: 294-----------\n");
        done[i] = 1;
        remaining--;
        idle = 0;
@@ -334,8 +329,6 @@ testResult_t testStreamSynchronize(int ngpus, cudaStream_t* streams, ncclComm_t*
    if (idle) sched_yield();
   }
 
-  printf("-----------NCCL TESTS: common.cu, testStreamSynchronize: 334-----------\n");
-  
   free(done);
   return testSuccess;
 }
