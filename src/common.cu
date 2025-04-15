@@ -344,9 +344,9 @@ testResult_t testStreamSynchronize(int ngpus, cudaStream_t* streams, ncclComm_t*
    if (idle) sched_yield();
   }
 
-  printf("-----------NCCL TESTS: common.cu, testStreamSynchronize:333-----------\n");
 
   free(done);
+  printf("-----------NCCL TESTS: common.cu, testStreamSynchronize: %d-----------\n", __LINE__);
   return testSuccess;
 }
 
@@ -421,8 +421,9 @@ testResult_t startColl(struct threadArgs* args, ncclDataType_t type, ncclRedOp_t
 
 testResult_t completeColl(struct threadArgs* args) {
   if (blocking_coll) return testSuccess;
-
+  printf("-----------NCCL TESTS: common.cu, testStreamSynchronize: %d-----------\n", __LINE__);
   TESTCHECK(testStreamSynchronize(args->nGpus, args->streams, args->comms));
+  printf("-----------NCCL TESTS: common.cu, testStreamSynchronize: %d-----------\n", __LINE__);
   return testSuccess;
 }
 
